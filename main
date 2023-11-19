@@ -1,0 +1,121 @@
+//declare variables
+var checker = 128;
+var Bin = "";
+var HexA = 0;
+var HexB = 0;
+var HexAstring = "";
+var HexBstring = "";
+//declare functions
+function den2bin(n) {
+  Bin = "";
+  checker = 128;
+  for (var i = 0; i < 8; i++) {
+    if (n >= checker) {
+      Bin = Bin + "1";
+      n = n - checker;
+    } else {
+      Bin = Bin + "0";
+    }
+    checker = checker / 2;
+  }
+  return Bin;
+}
+function bin2hex(bin) {
+  HexA = 0;
+  HexB = 0;
+  checker = 8;
+  for (var i = 0; i < 4; i++) {
+    if (bin.substring(i, i + 1) == "1") {
+      HexA = HexA + checker;
+    }
+    checker = checker / 2;
+  }
+  checker = 8;
+  for (var i = 4; i < 8; i++) {
+    if (bin.substring(i, i + 1) == "1") {
+      HexB = HexB + checker;
+    }
+    checker = checker / 2;
+  }
+  if (HexA <= 9) {
+    HexAstring = HexA.toString();
+  } else {
+    HexAstring = String.fromCharCode(HexA + 55);
+  }
+  if (HexB <= 9) {
+    HexBstring = HexB.toString();
+  } else {
+    HexBstring = String.fromCharCode(HexB + 55);
+  }
+  return (HexAstring + HexBstring);
+}
+function Hex2Den(n) {
+  var HexA = n.charCodeAt(0);
+  var HexB = n.charCodeAt(1);
+  if (HexA < 65) {
+    HexA = HexA - 48;
+  } else {
+    HexA = HexA - 55;
+  }
+  if (HexB < 65) {
+    HexB = HexB - 48;
+  } else {
+    HexB = HexB - 55;
+  }
+  Den = 16 * HexA + HexB;
+  return Den;
+}
+// navigation
+setScreen("screen_home");
+onEvent("button_home_compsci", "click", function( ) {
+  setScreen("screen_compsci");
+});
+onEvent("button_maths_home", "click", function( ) {
+  setScreen("screen_home");
+});
+onEvent("button_compsci_home", "click", function( ) {
+  setScreen("screen_home");
+});
+onEvent("button_home_maths", "click", function( ) {
+  setScreen("screen_maths");
+});
+onEvent("button_compsci_fromdenery", "click", function( ) {
+  setScreen("screen_denary");
+});
+onEvent("button_compsci_binary", "click", function( ) {
+  setScreen("screen_binary");
+});
+onEvent("button_denary_home", "click", function( ) {
+  setScreen("screen_compsci");
+});
+onEvent("button_compsci_hex", "click", function( ) {
+  setScreen("screen_hex");
+});
+onEvent("button_hex_home", "click", function( ) {
+  setScreen("screen_compsci");
+});
+onEvent("button_denary_home", "click", function( ) {
+  setScreen("screen_compsci");
+});
+onEvent("button_binary_home", "click", function( ) {
+  setScreen("screen_compsci");
+});
+//from denary
+onEvent("button_denary_submit", "click", function( ) {
+  setText("label_denary_binary", den2bin(getText("input_denary_number")));
+  setText("label_denary_hex", bin2hex(getText("label_denary_binary")));
+});
+//from binary
+onEvent("button_binary_submit", "click", function( ) {
+  setText("label_binary_hex", bin2hex(getText("text_binary_input")));
+});
+onEvent("button_binary_submit", "click", function( ) {
+  setText("label_binary_denary", Hex2Den(getText("text_binary_input")));
+});
+//from Hex
+onEvent("button_hex_submit", "click", function( ) {
+  setText("label_hex_denary", Hex2Den(getText("input_hex")));
+});
+onEvent("button_hex_submit", "click", function( ) {
+  setText("label_hex_binary", den2bin(getText("input_hex")));
+});
